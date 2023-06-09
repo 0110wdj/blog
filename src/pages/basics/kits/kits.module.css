@@ -1,0 +1,61 @@
+/** 单条信息 */
+.trans {
+  border: 3px solid black;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.trans div {
+  align-content: space-around;
+  display: grid;
+}
+
+.trans textarea {
+  background-color: aliceblue;
+}
+
+.trans button {
+  color: cornflowerblue;
+  background-color: cornsilk;
+}
+.trans button:hover {
+  background-color: bisque;
+}
+
+button {
+  width: 155px;
+}
+
+input {
+  width: 359px;
+}
+
+/** 进制转换 */
+.binConfig {
+  border: 3px solid black;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  background-color: darkgray;
+}
+
+.binConfig h3 {
+  margin: 10px;
+}
+.binConfig div {
+  margin: 5px;
+  display: flex;
+  align-items: center;
+}
+.binConfig span {
+  margin: 5px;
+  display: flex;
+  width: 105px;
+  justify-content: flex-end;
+}

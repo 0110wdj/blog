@@ -1,0 +1,48 @@
+{
+  "name": "snofly-blog",
+  "private": true,
+  "description": "add post look job 2023",
+  "version": "0.4.4",
+  "license": "0BSD",
+  "scripts": {
+    "build": "gatsby build",
+    "develop": "gatsby develop",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
+    "start": "gatsby develop",
+    "serve": "gatsby serve",
+    "clean": "gatsby clean",
+    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1"
+  },
+  "dependencies": {
+    "@emotion/core": "^11.0.0",
+    "css-loader": "^6.7.3",
+    "gatsby": "^4.25.5",
+    "gatsby-plugin-emotion": "^7.15.0",
+    "gatsby-plugin-typography": "^4.15.0",
+    "gatsby-source-filesystem": "^4.15.0",
+    "gatsby-transformer-remark": "^5.15.1",
+    "highlight.js": "^11.5.1",
+    "markdown-it": "^13.0.1",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-markdown": "^8.0.3",
+    "react-typography": "^0.16.20",
+    "typography": "^0.16.21",
+    "typography-theme-fairy-gates": "^0.16.19",
+    "typography-theme-kirkham": "^0.16.19"
+  },
+  "devDependencies": {
+    "prettier": "^2.6.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gatsbyjs/gatsby-starter-hello-world.git"
+  },
+  "bugs": {
+    "url": "https://github.com/gatsbyjs/gatsby/issues"
+  },
+  "homepage": "https://github.com/gatsbyjs/gatsby-starter-hello-world#readme",
+  "main": "gatsby-browser.js",
+  "keywords": [],
+  "author": ""
+}

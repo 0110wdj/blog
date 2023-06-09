@@ -1,0 +1,126 @@
+html {
+  background-color: #ebdbb2;
+  overflow-y: auto;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  /* background-color: #6d695c; */
+}
+
+/* 页眉 */
+header {
+  background-color: rgba(240, 214, 154, 78%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 4rem;
+}
+
+header img {
+  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+  transition: 0.5s clip-path;
+}
+header img:hover {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+
+/* 页脚 */
+footer {
+  padding: 0.5rem;
+  font-size: 0.6rem;
+  color: #888;
+  background-color: rgba(240, 214, 154, 78%);
+}
+
+/** 文章中的链接 */
+a {
+  color: rgb(163 11 11);
+  background-image: none;
+  text-shadow: none;
+}
+
+a:hover {
+  color: rgb(5, 109, 232);
+}
+
+header a:hover {
+  color: rgb(163 11 11) !important;
+  transform: scale(1.1);
+}
+
+/* 页脚中的a标签 */
+footer a {
+  color: #888;
+  background-image: none;
+  text-shadow: none;
+}
+
+/** 文章中的代码样式 */
+.hljs {
+  overflow: auto;
+  padding: 1rem;
+  border-radius: 1em;
+}
+
+/** 文章背景设计 */
+.blog-post-html {
+  padding: 1em 2em;
+  background-color: #ffffe3;
+  background-image: linear-gradient(#eee 0.1em, transparent 0.1em);
+  background-size: 100% 1.2em;
+  max-width: 1200px;
+}
+.blog-post-html .hljs {
+  overflow-y: auto;
+  max-height: 500px;
+}
+
+/** 文章内容样式干预 */
+.blog-post h1 {
+  text-align: center;
+}
+
+/*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
+::-webkit-scrollbar {
+  background-color: #ebdbb2;
+  width: 9px;
+  height: 9px;
+}
+
+/*定义滑块 内阴影+圆角*/
+::-webkit-scrollbar-thumb {
+  background: #e1e6f5;
+  border-radius: 5px;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+}
+
+/** 首页列表的标题 */
+.index-title:hover {
+  color: rgb(163 11 11);
+  margin-left: -10px;
+  margin-right: 10px;
+}
+
+@media screen and (max-width: 850px) {
+  header a {
+    font: initial;
+  }
+  header img {
+    width: 80%;
+  }
+  .index-title span {
+    display: none;
+  }
+  .index-title {
+    font-size: 1em;
+  }
+  h1 {
+    font-size: 1.5em;
+  }
+  h2 {
+    font-size: 1.2em;
+  }
+  h3 {
+    font-size: 1em;
+  }
+}

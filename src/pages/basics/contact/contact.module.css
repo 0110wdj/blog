@@ -1,0 +1,75 @@
+/** 单条信息 */
+.oneMeaasge {
+  margin: 0.5em;
+  padding: 0.5em;
+  border: 0.5em rgb(230, 223, 223) solid;
+  background: #58a;
+  border-radius: 1rem;
+  color: black;
+  background-image: linear-gradient(45deg, #6f53ca, #00000000);
+}
+
+.oneMeaasge message {
+  background: hsla(0, 0%, 100%, 0.3);
+  border-radius: 20px;
+  padding: 5px 12px 3px 12px;
+}
+
+.oneMeaasge name {
+  display: flex;
+  justify-content: end;
+}
+
+/** 留言板整体 */
+.talkBoard {
+  color: antiquewhite;
+  padding: 1rem;
+  background: rgb(36, 34, 34);
+  border-radius: 1rem;
+}
+
+/** 留言板标题 */
+.talkBoardTitle {
+  font-size: 1.5rem;
+  color: rgb(216, 198, 31);
+  transition: 1s;
+}
+
+.talkBoardTitle:hover {
+  text-shadow: 0 0 0.1em, 0 0 0.3em;
+}
+
+/** 添加一条信息 */
+.addMeaasge {
+  margin-top: 3em;
+  padding: 0.5em;
+  border: 0.5em #4fc9d1 dotted;
+}
+
+.addMeaasge :first-child {
+  display: block;
+  width: -webkit-fill-available;
+  border: 0.2em solid #2174b6;
+}
+
+.addMeaasge :last-child {
+  margin-top: 1em;
+  display: flex;
+  border: 0.2em solid #2174b6;
+}
+
+.addMeaasge button {
+  margin-top: 1em;
+  float: right;
+  color: #6d23a7;
+  border-radius: 0.5em;
+}
+
+.addMeaasge button:hover {
+  margin-top: 1em;
+  float: right;
+  color: #6d23a7;
+  mix-blend-mode: exclusion;
+  border-radius: 0.5em;
+  cursor: pointer;
+}
