@@ -1,2 +1,5 @@
 # blog
-store blog website code
+To store code in blog website which url is http://www.snofly.cn/
+
+# 博客
+存储个人博客网站源代码，网站地址 http://www.snofly.cn/
