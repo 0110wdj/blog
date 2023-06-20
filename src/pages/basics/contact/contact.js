@@ -3,15 +3,15 @@
  * @RGX/RBX: 
  * @Authored: LiuJie
  * @Date: 2022-04-27 12:54:43
- * @LastEditors: Please set LastEditors
- * @LastEditTime: 2022-10-11 09:57:01
+ * @LastEditors: LiuJie 626796235@qq.com
+ * @LastEditTime: 2023-06-20 11:50:50
  */
 import React, { useState } from "react"
 import Layout from "../../../components/layout"
 import * as contactStyles from "./contact.module.css"
 
-const ipAddress = '47.97.71.176';
-// const ipAddress = 'localhost';
+// const ipAddress = '47.97.71.176';
+const ipAddress = 'localhost';
 
 /** 接口定义 */
 const getJSONData = async () => {
