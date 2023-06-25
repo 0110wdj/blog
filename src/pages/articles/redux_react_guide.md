@@ -1,7 +1,6 @@
 ---
 title: "【译】Redux 入门引导：理论概述与示例演练"
-date: "hidden"
-# date: "2023-03-16"
+date: "2023-06-25"
 ---
 
 # 前言
@@ -253,9 +252,103 @@ touch index.js index.css App.js
 
 当我第一次学习 Redux 时，感到非常茫然，因为我看到的每个 app 的 index.js 设置都有点不同。在观察了很多最新的 app 并对它们的共性进行分析之后，我能够很好地识别 Redux app 中真正需要包含的内容，以及人们为了与众不同而别出心裁的操作。
 
-网上有很多教程展示了“如何使用 todo 设置一个非常基本的 Redux 存储”，但我认为这些教程对于了解“如何进行生产级设置”没有多大帮助，所以我将从一开始就使用完整项（你需要的所有东西）来设置它。即便如此，尽管 Redux 非常灵活，还是会有一些固定的方面。
+网上有很多教程展示了“如何使用 todo 设置一个非常基本的 Redux 存储”，但我认为这些教程对于了解“如何进行生产级设置”没有多大帮助，所以我将从一开始就使用完整项（你需要的所有东西）来设置它。尽管 Redux 非常灵活多变，但还是会有一些固定不变化的方面。
 
-## Bringing in reducers
+在 index.js 中，我们会引入一些东西：
+
+- **createStore**：创建 store 以维护 Redux 状态
+- **applyMiddleware**：能够使用中间件，这里中间件指 thunk
+- **Provider**：将整个应用程序封装在 Redux 中
+- **thunk**：一个中间件，允许我们在 Redux 中进行异步操作
+- **composeWithDevTools**：将应用程序连接到 Redux DevTools 的代码
+
+```js
+// index.js
+import React from "react"
+import { render } from "react-dom"
+import { createStore, applyMiddleware } from "redux"
+import { Provider } from "react-redux"
+import thunk from "redux-thunk"
+import { composeWithDevTools } from "redux-devtools-extension"
+
+import App from "./App"
+import rootReducer from "./reducers"
+
+import "./index.css"
+
+const store = createStore(
+  rootReducer,
+  composeWithDevTools(applyMiddleware(thunk))
+)
+
+render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById("root")
+)
+```
+
+> (译者补充：在 index.js 中的 Provider 写法，和 React 中提供的 useContext 用法相似)
+
+在 App.js 中添加一个组件。我们稍后会修改它，但我们现在只想让应用程序启动并运行。
+
+```js
+// App.js
+
+import React from "react"
+
+const App = () => {
+  return <div>Hello, Redux</div>
+}
+
+export default App
+```
+
+## 引入折叠器(reducers)
+
+最后一件事是引入折叠器。reducer 是一个决定 Redux 状态变化的函数。它是一个纯函数，返回更新后的状态的复制。
+
+Redux 的一个简洁特性是，我们可以有许多 reducer，并使用 combineReducers 将它们组合成一个给 store 使用的根 reducer。这使我们能够轻松地组织代码，同时仍然将所有内容放在一个根状态树中。
+
+由于这个应用程序会类似一个博客，所以它会有一个文章列表，我们把列表放在 postsReducer 中。有了这个 combineReducers 方法，我们就可以引入任何我们想要的东西 —— commentsReducer 、authReducer，等等。
+
+在 reducers/index.js 中，创建一个文件来组合所有的 reducers。
+
+```js
+// reducers/index.js
+
+import { combineReducers } from "redux"
+
+import postsReducer from "./postsReducer"
+
+const rootReducer = combineReducers({
+  posts: postsReducer,
+})
+
+export default rootReducer
+```
+
+最后，我们将创建 postsReducer。我们可以建立一个初始状态。就像你对普通 React 组件的期望一样，我们将有一个 loading 和 hasErrors 状态，以及一个 posts 数组，所有的文章列表都将保存在这里。首先，我们将在 switch 中设置为无动作，而只有一个返回整个状态的默认 case 。
+
+```js
+// reducers/postsReducer.js
+
+export const initialState = {
+  posts: [],
+  loading: false,
+  hasErrors: false,
+}
+
+export default function postsReducer(state = initialState, action) {
+  switch (action.type) {
+    default:
+      return state
+  }
+}
+```
+
+现在我们至少有了足够的配置，应用程序能够加载而不会崩溃了。
 
 ## Redux DevTools
 
