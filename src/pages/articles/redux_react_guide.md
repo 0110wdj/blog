@@ -350,7 +350,7 @@ export default function postsReducer(state = initialState, action) {
 
 现在我们至少有了足够的配置，应用程序能够加载而不会崩溃了。
 
-## Redux DevTools
+## Redux 插件
 
 加载完应用程序并设置好 Redux \<Provider\> 后，我们可以看一下 Redux DevTools。下载拓展后，它将成为开发人员工具(F12)中的一个 tab。单击 State，能观察到到目前为止应用程序的整个状态。
 
@@ -358,7 +358,9 @@ export default function postsReducer(state = initialState, action) {
 
 这里内容比较少看不太明显，但当你获得了很多 reducers and actions 时， Redux DevTools 就会显得很神奇。它可以跟踪应用程序的所有更改，与普通 React 相比，它使调试变得轻而易举。
 
-# Setting up Redux Actions
+# 设置 Redux Actions
+
+现在我们有一个文章的 reducer，但我们没有任何 actions。这时 reducer 只会返回状态，但没办法修改状态。actions 是我们与 Redux 存储进行通信的方式。对于这个博客 app，我们将从 API 获取文章数据，并将它们推到 Redux 状态中。
 
 ## Responding to actions
 
