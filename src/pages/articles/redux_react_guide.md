@@ -1,6 +1,6 @@
 ---
 title: "【译】Redux 入门引导：理论概述与示例演练"
-date: "2023-06-25"
+date: "hidden"
 ---
 
 # 前言
@@ -360,7 +360,65 @@ export default function postsReducer(state = initialState, action) {
 
 # 设置 Redux Actions
 
-现在我们有一个文章的 reducer，但我们没有任何 actions。这时 reducer 只会返回状态，但没办法修改状态。actions 是我们与 Redux 存储进行通信的方式。对于这个博客 app，我们将从 API 获取文章数据，并将它们推到 Redux 状态中。
+现在我们有一个文章的 reducer，但我们没有任何 actions。这时 reducer 只会返回状态，但没办法修改状态。actions 是我们与 Redux 存储进行通信的方式。对于这个博客 app，我们将从 API 获取文章数据，然后把它们置于 Redux 状态中。
+
+由于获取文章是一个异步操作，因此需要使用 Redux thunk。幸运的是，使用 thunk，我们只需要在 store 中设置 thunk （我们已经这样做了），而不必做任何特别的事情来。
+
+创建一个 actions/postsActions.js 文件。首先，我们将 action type 定义为常量 —— 这不是强制要求的，但这是一种常见的约定，便于导出 action 和防止拼写错误。我们想做三件事：
+
+- getPosts - 开始告诉 Redux 我们将从 API 获取帖子
+- getPostsSuccess - 在成功的 API 调用时将帖子传递给 Redux
+- getPostsFailure - 通知 Redux 在 Redux 期间遇到错误，API 调用失败
+
+```js
+// actions/postsActions.js
+// 创建 Redux action types
+export const GET_POSTS = "GET_POSTS"
+export const GET_POSTS_SUCCESS = "GET_POSTS_SUCCESS"
+export const GET_POSTS_FAILURE = "GET_POSTS_FAILURE"
+```
+
+然后创建 action creators —— 返回 action 的函数。该 action 由 type 和包含数据的可选的 payload 组成。
+
+```js
+// actions/postsActions.js
+// 创建 Redux action creators ，它返回一个 action
+export const getPosts = () => ({
+  type: GET_POSTS,
+})
+
+export const getPostsSuccess = posts => ({
+  type: GET_POSTS_SUCCESS,
+  payload: posts,
+})
+
+export const getPostsFailure = () => ({
+  type: GET_POSTS_FAILURE,
+})
+```
+
+最后，创建将上述所有三个 action 组合在一起的异步 thunk action。调用时，它将 dispatch(调度) 初始 getPosts() action 以通知 Redux 准备 API 调用，然后在 try/catch 中执行所有必要的操作以获取数据，并根据需要 dispatch 成功或失败 action。
+
+```js
+// actions/postsActions.js
+// Combine them all in an asynchronous thunk
+export function fetchPosts() {
+  return async dispatch => {
+    dispatch(getPosts())
+
+    try {
+      const response = await fetch("https://jsonplaceholder.typicode.com/posts")
+      const data = await response.json()
+
+      dispatch(getPostsSuccess(data))
+    } catch (error) {
+      dispatch(getPostsFailure())
+    }
+  }
+}
+```
+
+太好了，我们现在都完成了创建 actions！剩下要做的就是告诉 reducer 如何处理每个操作的状态。
 
 ## Responding to actions
 
