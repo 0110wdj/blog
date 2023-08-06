@@ -420,11 +420,252 @@ export function fetchPosts() {
 
 太好了，我们现在都完成了创建 actions！剩下要做的就是告诉 reducer 如何处理每个操作的状态。
 
-## Responding to actions
+## 响应 actions
 
-# Connecting Redux to React Components
+回到我们的文章 reducer，我们有一个开关，它还没有做任何事情。
 
-# The End
+```js
+// reducers/postsReducer.js
+export default function postsReducer(state = initialState, action) {
+  switch (action.type) {
+    default:
+      return state
+  }
+}
+```
+
+现在我们有了 actions，我们可以从 postsActions 页面引入它们。
+
+```js
+// Import all actions
+import * as actions from "../actions/postsActions"
+```
+
+对于每个 action，我们将创建一个对应的 case ，它返回整个 state 以及我们对它所做的任何更改。例如 GET_POSTS ，我们要做的就是告诉应用程序将 loading 设置为 true， 因为我们马上要进行 API 调用。
+
+```js
+case actions.GET_POSTS:
+  return { ...state, loading: true }
+```
+
+- GET_POSTS - 开始加载
+- GET_POSTS_SUCCESS - 该应用程序有帖子，没有错误，应该停止加载
+- GET_POSTS_FAILURE - 应用程序有错误，应该停止加载
+
+这是整个 reducer。
+
+```js
+// reducers/postsReducer.js
+import * as actions from "../actions/postsActions"
+
+export const initialState = {
+  posts: [],
+  loading: false,
+  hasErrors: false,
+}
+
+export default function postsReducer(state = initialState, action) {
+  switch (action.type) {
+    case actions.GET_POSTS:
+      return { ...state, loading: true }
+    case actions.GET_POSTS_SUCCESS:
+      return { posts: action.payload, loading: false, hasErrors: false }
+    case actions.GET_POSTS_FAILURE:
+      return { ...state, loading: false, hasErrors: true }
+    default:
+      return state
+  }
+}
+```
+
+现在我们的 actions 和 reducers 已经准备就绪，所以剩下要做的就是将所有内容连接到 React 应用程序。
+
+# 将 Redux 连接到 React 组件
+
+由于我创建的 demo 使用 React Router 来提供一些路由 —— 仪表板、全文章列表、单文章页面，我现在将引入 React Router。此 demo 中，我将只引入仪表板和此演示的所有帖子列表。
+
+```js
+import React from "react"
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom"
+
+import DashboardPage from "./pages/DashboardPage"
+import PostsPage from "./pages/PostsPage"
+
+const App = () => {
+  return (
+    <Router>
+      <Switch>
+        <Route exact path="/" component={DashboardPage} />
+        <Route exact path="/posts" component={PostsPage} />
+        <Redirect to="/" />
+      </Switch>
+    </Router>
+  )
+}
+
+export default App
+```
+
+我们可以创建仪表板页面，它只是一个常规的 React 组件。
+
+```js
+// pages/DashboardPage.js
+import React from "react"
+import { Link } from "react-router-dom"
+
+const DashboardPage = () => (
+  <section>
+    <h1>Dashboard</h1>
+    <p>This is the dashboard.</p>
+
+    <Link to="/posts" className="button">
+      View Posts
+    </Link>
+  </section>
+)
+
+export default DashboardPage
+```
+
+对于每个文章，让我们创建一个 Post 组件来显示文章的标题和文本摘录。在 components 子目录中创建 Post.js 。
+
+```js
+// components/Post.js
+import React from "react"
+
+export const Post = ({ post }) => (
+  <article className="post-excerpt">
+    <h2>{post.title}</h2>
+    <p>{post.body.substring(0, 100)}</p>
+  </article>
+)
+```
+
+> 连接到 Redux 的组件对于较小的、可重用的区域（例如此 Post 组件）仍然很重要且有用。
+
+现在有趣的部分出现在文章页面 - 将 Redux 引入 React。为此，我们将使用 react-redux 中的 connect。首先，我们将为页面创建一个常规组件。
+
+```js
+// pages/PostsPage.js
+import React from "react"
+
+const PostsPage = () => {
+  return (
+    <section>
+      <h1>Posts</h1>
+    </section>
+  )
+}
+
+export default PostsPage
+```
+
+然后我们将引入 connect 函数，它是一个高阶函数，将 Redux store 连接到 React 组件。我们将向 connect 传递一个名为 mapStateToProps 的参数。这个顾名思义的函数将从 Redux store 中获取任何 state，并将其传递给 React 组件的 props。我们将引入 postsReducer 中的 loading 、 posts 和 hasErrors 。
+
+```js
+// pages/PostsPage.js
+import React from "react"
+import { connect } from "react-redux"
+
+// Redux state is now in the props of the component
+const PostsPage = ({ loading, posts, hasErrors }) => {
+  return (
+    <section>
+      <h1>Posts</h1>
+    </section>
+  )
+}
+
+// Map Redux state to React component props
+const mapStateToProps = state => ({
+  loading: state.posts.loading,
+  posts: state.posts.posts,
+  hasErrors: state.posts.hasErrors,
+})
+// Connect Redux to React
+export default connect(mapStateToProps)(PostsPage)
+```
+
+> 由于此组件使用来自同一 reducer 的状态，因此我们也可以简写为 state => state.posts 。但是，使用更长的写法也是有意义的：如果需要将多个 reducers 引入同一个组件中，可以明确其内容。
+
+最后，我们将从 actions 中引入异步 fetchPosts ，它将获取所有文章的整个生命周期（译者注：就是 fetch 从开始到成功或失败的全过程）合并为一个的 action。使用 Reat 的 useEffecct，在组件挂载时调用 dispatch(fetchPosts) 来更新文章。在已连接的组件上，dispatch 将自动可用。
+
+```js
+// pages/PostsPage.js
+import React, { useEffect } from "react"
+import { connect } from "react-redux"
+
+// Bring in the asynchronous fetchPosts action
+import { fetchPosts } from "../actions/postsActions"
+
+const PostsPage = ({ dispatch, loading, posts, hasErrors }) => {
+  useEffect(() => {
+    dispatch(fetchPosts())
+  }, [dispatch])
+
+  return (
+    <section>
+      <h1>Posts</h1>
+    </section>
+  )
+}
+
+const mapStateToProps = state => ({
+  loading: state.posts.loading,
+  posts: state.posts.posts,
+  hasErrors: state.posts.hasErrors,
+})
+
+export default connect(mapStateToProps)(PostsPage)
+```
+
+此时剩下要做的就是显示页面的所有三种可能状态：无论是正在加载、出现错误还是从 API 成功检索文章。
+
+```js
+// pages/PostsPage.js
+import React, { useEffect } from "react"
+import { connect } from "react-redux"
+
+import { fetchPosts } from "../actions/postsActions"
+import { Post } from "../components/Post"
+
+const PostsPage = ({ dispatch, loading, posts, hasErrors }) => {
+  useEffect(() => {
+    dispatch(fetchPosts())
+  }, [dispatch])
+
+  // Show loading, error, or success state
+  const renderPosts = () => {
+    if (loading) return <p>Loading posts...</p>
+    if (hasErrors) return <p>Unable to display posts.</p>
+    return posts.map(post => <Post key={post.id} post={post} />)
+  }
+
+  return (
+    <section>
+      <h1>Posts</h1>
+      {renderPosts()}
+    </section>
+  )
+}
+
+const mapStateToProps = state => ({
+  loading: state.posts.loading,
+  posts: state.posts.posts,
+  hasErrors: state.posts.hasErrors,
+})
+
+export default connect(mapStateToProps)(PostsPage)
+```
+
+仅此而已 - 我们现在有一个连接的组件，并将数据从 API 引入我们的 Redux store。使用 Redux DevTools，我们可以看到每个操作的发生，以及每个状态更改后的变化。
+
+# 结束
 
 # Redux Toolkit
 
