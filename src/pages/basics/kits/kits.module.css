@@ -35,6 +35,15 @@ input {
   width: 359px;
 }
 
+select {
+  background: transparent;
+  color: blueviolet;
+}
+
+option {
+  background: #181818;
+}
+
 /** 进制转换 */
 .binConfig {
   border: 3px solid black;

@@ -4,13 +4,19 @@
  * @Authored: LiuJie
  * @Date: 2022-04-27 12:54:43
  * @LastEditors: LiuJie 626796235@qq.com
- * @LastEditTime: 2023-08-08 17:35:32
+ * @LastEditTime: 2023-08-08 19:10:10
  */
 import React, { useState } from "react"
 import Layout from "../../../components/layout"
 import * as styles from "./kits.module.css"
+import { protbufDecode } from '../../../utils/protobuf/index'
 
 export default function Home() {
+
+  /* protobuf base64 text */
+  const [protobufBase64, setProtobufBase64] = useState('base64');
+  const [protobufType, setProtobufType] = useState('Chart');
+  const [protobufBase64ToString, setProtobufBase64ToString] = useState('结果区域');
 
   // 翻译
   const [hexWord, setHexWord] = useState('31 32');
@@ -97,8 +103,39 @@ export default function Home() {
   }
   return (
     <Layout>
+      <h3 >protobuf 解析 (按F12控制台查看结构)</h3>
+      <div className={styles?.trans}>
+        <code>
+          <textarea rows="5" cols="33" onChange={(e) => { setProtobufBase64(e?.target?.value) }} value={protobufBase64} />
+        </code>
+        <div style={{ margin: '0 10px' }}>
+          <select name="pets" id="pet-select" onChange={(e) => { setProtobufType(e?.target?.value) }} value={protobufType}>
+            {/* 'Chart'|'Charts'|'MonitorStatus'|'RoundTick'|'Problem'|'Event'|'Events' */}
+            <option value="Chart">Chart</option>
+            <option value="Charts">Charts</option>
+            {/* <option value="MonitorStatus">MonitorStatus</option> */}
+            {/* <option value="RoundTick">RoundTick</option> */}
+            <option value="Problem">Problem</option>
+            {/* <option value="Event">Event</option> */}
+            {/* <option value="Events">Events</option> */}
+          </select>
+          <button onClick={() => {
+            try {
+              const res = protbufDecode(protobufBase64, protobufType)
+              console.log({ 解析结果: res });
+              setProtobufBase64ToString(JSON.stringify(res))
+            } catch (error) {
+              setProtobufBase64ToString('解析异常')
+              console.log('解析异常', error);
+            }
+          }}>{'解析'}</button>
+        </div>
+        <code>
+          <textarea rows="5" cols="33" value={protobufBase64ToString} />
+        </code>
+      </div>
+      <h3 >进制转换</h3>
       <div className={styles?.binConfig}>
-        <h3>进制转换</h3>
         <div>
           <span>二进制:</span>
           <input onChange={(e) => { transBin(e?.target?.value, 2); }} value={bin2} />
@@ -116,7 +153,7 @@ export default function Home() {
           <input onChange={(e) => { transBin(e?.target?.value, 16); }} value={bin16} />
         </div>
       </div>
-      翻译 ASCII 码
+      <h3 > 翻译 ASCII 码</h3>
       <div className={styles?.trans}>
         <code>
           <textarea rows="5" cols="33" onChange={(e) => { setHexWord(e?.target?.value) }} value={hexWord} />
@@ -129,6 +166,6 @@ export default function Home() {
           <textarea rows="5" cols="33" onChange={(e) => { setStringWord(e?.target?.value) }} value={stringWord} />
         </code>
       </div>
-    </Layout>
+    </Layout >
   )
 }
