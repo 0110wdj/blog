@@ -1,6 +1,6 @@
 ---
 title: "【译】Redux 入门引导：理论概述与示例演练"
-date: "hidden"
+date: "2023-08-08"
 ---
 
 # 前言
@@ -354,7 +354,7 @@ export default function postsReducer(state = initialState, action) {
 
 加载完应用程序并设置好 Redux \<Provider\> 后，我们可以看一下 Redux DevTools。下载拓展后，它将成为开发人员工具(F12)中的一个 tab。单击 State，能观察到到目前为止应用程序的整个状态。
 
-![eventLoop](/redux_react_guide/reduxDevtools.png)
+![dev](/redux_react_guide/reduxDevtools.png)
 
 这里内容比较少看不太明显，但当你获得了很多 reducers and actions 时， Redux DevTools 就会显得很神奇。它可以跟踪应用程序的所有更改，与普通 React 相比，它使调试变得轻而易举。
 
@@ -664,6 +664,8 @@ export default connect(mapStateToProps)(PostsPage)
 ```
 
 仅此而已 - 我们现在有一个连接的组件，并将数据从 API 引入我们的 Redux store。使用 Redux DevTools，我们可以看到每个操作的发生，以及每个状态更改后的变化。
+
+![demo](/redux_react_guide/demo.png)
 
 # 结束
 
