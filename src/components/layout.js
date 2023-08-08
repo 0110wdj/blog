@@ -4,7 +4,7 @@
  * @Authored: LiuJie
  * @Date: 2022-04-09 19:35:28
  * @LastEditors: LiuJie 626796235@qq.com
- * @LastEditTime: 2023-05-01 14:34:49
+ * @LastEditTime: 2023-08-08 10:19:45
  */
 import React from "react"
 import { useStaticQuery, Link, graphql } from "gatsby"
@@ -18,7 +18,8 @@ const ListLink = props => (
         style={{
             textShadow: `none`,
             backgroundImage: `none`,
-            color: '#000',
+            // color: '#000',
+            color: 'rgb(220 255 252)',
             marginRight: `1rem`,
             display: 'flex',
             alignItems: 'center',
@@ -85,7 +86,8 @@ export default function Home({ children }) {
                 display: 'flex',
                 flexFlow: 'column',
                 minHeight: '100vh',
-                width:'auto',
+                width: 'auto',
+                color: '#fffc'
             }}
         >
             {Header(data)}
@@ -93,6 +95,7 @@ export default function Home({ children }) {
                 flex: 1,
                 padding: '0 2rem',
                 margin: 'auto',
+                color: '#c1c1c1'
             }}
             >
                 {children}
