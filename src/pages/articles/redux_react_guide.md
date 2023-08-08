@@ -831,6 +831,21 @@ export function fetchPosts() {
 }
 ```
 
+> 译者补充:为了最低运行，还需要加上这个文件。完整代码地址在前文查看。
+>
+> ```js
+> // slices/index.js
+> import { combineReducers } from "redux"
+>
+> import postsReducer from "./posts"
+>
+> const rootReducer = combineReducers({
+>   posts: postsReducer,
+> })
+>
+> export default rootReducer
+> ```
+
 ## 在 React 组件中选择 Redux 状态
 
 正如我们刚刚了解到的，传统的方法是与 connect() 函数一起使用 mapStateToProps ，这在代码库中仍然很常见，因此值得了解这种写法。你仍然可以在 RTK 中使用此方法，但较新的 React Hooks 写法是使用 react-redux 提供的 useDispatch 和 useSelector ，这种方法需要的代码较少。
