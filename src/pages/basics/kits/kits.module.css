@@ -14,15 +14,17 @@
 }
 
 .trans textarea {
-  background-color: aliceblue;
+  background-color: transparent;
+  color: #181;
 }
 
 .trans button {
   color: cornflowerblue;
-  background-color: cornsilk;
+  background-color: #311707;
 }
 .trans button:hover {
-  background-color: bisque;
+  background-color: #51260c;
+  cursor: pointer;
 }
 
 button {
@@ -42,7 +44,7 @@ input {
   display: flex;
   align-items: center;
   flex-direction: column;
-  background-color: darkgray;
+  background: transparent;
 }
 
 .binConfig h3 {
@@ -58,4 +60,9 @@ input {
   display: flex;
   width: 105px;
   justify-content: flex-end;
+}
+
+.binConfig input {
+  background: transparent;
+  color: #181;
 }

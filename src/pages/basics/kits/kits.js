@@ -4,7 +4,7 @@
  * @Authored: LiuJie
  * @Date: 2022-04-27 12:54:43
  * @LastEditors: LiuJie 626796235@qq.com
- * @LastEditTime: 2023-05-01 14:56:19
+ * @LastEditTime: 2023-08-08 17:35:32
  */
 import React, { useState } from "react"
 import Layout from "../../../components/layout"
@@ -15,10 +15,6 @@ export default function Home() {
   // 翻译
   const [hexWord, setHexWord] = useState('31 32');
   const [stringWord, setStringWord] = useState('12');
-
-  // 生成
-  const [left, setLeft] = useState('11 22 33 44 55 66 77 88');
-  const [right, setRight] = useState('');
 
   /** 进制转换 */
   const [bin2, setBin2] = useState('10001');
@@ -64,25 +60,8 @@ export default function Home() {
     return charArr.join(' ')
   }
 
-  /**
- * '31 32' --> 'Tmsg.FData[x] = 0x31;\nTmsg.FData[x] = 0x32;'
- * @param {*} str 
- * @returns 
- */
-  const createTmsg = (str) => {
-    let arr = str.split(' ')
-    let charArr = []
-    let i = 0
-    arr.forEach(item => {
-      charArr.push(`Tmsg.FData[${i}] = 0x` + item + ';')
-      i++
-    });
-    return charArr.join('\n')
-  }
-
   /** 更新进制列表 */
   const transBin = (value, base) => {
-    console.log('source:', value);
     if (!value) {
       setBin2(0)
       setBin8(0)
@@ -142,7 +121,7 @@ export default function Home() {
         <code>
           <textarea rows="5" cols="33" onChange={(e) => { setHexWord(e?.target?.value) }} value={hexWord} />
         </code>
-        <div style={{margin:'0 10px'}}>
+        <div style={{ margin: '0 10px' }}>
           <button onClick={() => { setStringWord(toStrStr(hexWord)) }}>{'HEX ——> String'}</button>
           <button onClick={() => { setHexWord(toHexStr(stringWord)) }} >{'HEX <—— String'}</button>
         </div>
@@ -150,20 +129,6 @@ export default function Home() {
           <textarea rows="5" cols="33" onChange={(e) => { setStringWord(e?.target?.value) }} value={stringWord} />
         </code>
       </div>
-      {/* 报文脚本生成
-      <div className={styles?.trans}>
-        <div>
-          <code>
-            <input onChange={(e) => { setLeft(e?.target?.value) }} value={left} />
-          </code>
-        </div>
-        <div>
-          <button onClick={() => { setRight(createTmsg(left)) }}>{'createTmsg'}</button>
-        </div>
-        <code>
-          <textarea rows="8" cols="33" value={right} />
-        </code>
-      </div> */}
     </Layout>
   )
 }
