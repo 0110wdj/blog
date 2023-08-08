@@ -4,14 +4,14 @@
  * @Authored: LiuJie
  * @Date: 2022-04-27 12:54:43
  * @LastEditors: LiuJie 626796235@qq.com
- * @LastEditTime: 2023-06-20 14:50:24
+ * @LastEditTime: 2023-08-08 17:23:39
  */
 import React, { useState } from "react"
 import Layout from "../../../components/layout"
 import * as contactStyles from "./contact.module.css"
 
-// const ipAddress = '47.97.71.176';
-const ipAddress = '127.0.0.1';
+const ipAddress = '47.97.71.176';
+// const ipAddress = '127.0.0.1';
 
 /** 接口定义 */
 const getJSONData = async () => {
