@@ -733,12 +733,157 @@ npm i @reduxjs/toolkit
 
 ## Store
 
+由于 Redux Toolkit 已经内置了很多功能，比如 Redux DevTools 和 Redux Thunk，所以我们不再需要将它们放入 index.js 文件中。现在我们只需要 configureStore ，而不是 createStore 了。
+
+```js
+// index.js
+import React from "react"
+import { render } from "react-dom"
+import { configureStore } from "@reduxjs/toolkit"
+import { Provider } from "react-redux"
+
+import App from "./App"
+import rootReducer from "./slices"
+
+import "./index.css"
+
+const store = configureStore({ reducer: rootReducer })
+
+render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById("root")
+)
+```
+
 ## Slices
 
-## Selecting Redux state in a React component
+RTK 不是将 “reducers、actions 和所有文件” 作为单独的文件处理并单独创建所有 action types，而是为我们提供了 slices 的概念。slices 自动生成 reducers、action types 和 action creators。因此，您只需创建一个文件夹 - slices 。
 
-# Conclusion
+initialState 看起来是一样的。
 
+```js
+// slices/posts.js
+import { createSlice } from "@reduxjs/toolkit"
+
+export const initialState = {
+  loading: false,
+  hasErrors: false,
+  posts: [],
+}
 ```
 
+slices 中 reducers 的名称也将相同 —— getPosts 、 getPostsSuccess 和 getPostsFailure 。我们将进行所有相同的更改，但请注意，我们不再返回整个 state —— 我们只是改变状态。它在 hood 下仍然是不可变的，但这种方法对某些人来说可能更容易、更快捷。如果愿意，你仍然可以将整个 state 作为对象返回。
+
+> 译者补充：这里 hood 的理解，和前文第四个优点一样，取查看更多资料吧。
+
+```js
+// slices/posts.js
+// A slice for posts with our three reducers
+const postsSlice = createSlice({
+  name: "posts",
+  initialState,
+  reducers: {
+    getPosts: state => {
+      state.loading = true
+    },
+    getPostsSuccess: (state, { payload }) => {
+      state.posts = payload
+      state.loading = false
+      state.hasErrors = false
+    },
+    getPostsFailure: state => {
+      state.loading = false
+      state.hasErrors = true
+    },
+  },
+})
 ```
+
+生成的 actions 是相同的，我们只是不必再单独写出它们。从同一个文件中，我们可以导出所有 actions、reducer、异步 thunk 和一个新东西 —— selector。我们将使用 selector 来访问 React 组件中的任何状态，而不是使用 connect 。
+
+```js
+// slices/posts.js
+// Three actions generated from the slice
+export const { getPosts, getPostsSuccess, getPostsFailure } = postsSlice.actions
+
+// A selector
+export const postsSelector = state => state.posts
+
+// The reducer
+export default postsSlice.reducer
+
+// Asynchronous thunk action
+export function fetchPosts() {
+  return async dispatch => {
+    dispatch(getPosts())
+
+    try {
+      const response = await fetch("https://jsonplaceholder.typicode.com/posts")
+      const data = await response.json()
+
+      dispatch(getPostsSuccess(data))
+    } catch (error) {
+      dispatch(getPostsFailure())
+    }
+  }
+}
+```
+
+## 在 React 组件中选择 Redux 状态
+
+正如我们刚刚了解到的，传统的方法是与 connect() 函数一起使用 mapStateToProps ，这在代码库中仍然很常见，因此值得了解这种写法。你仍然可以在 RTK 中使用此方法，但较新的 React Hooks 写法是使用 react-redux 提供的 useDispatch 和 useSelector ，这种方法需要的代码较少。
+
+正如下面的 PostsPage.js 文件中所示，Redux 状态不再连接到组件的 props 上，而是由我们在 slice 中导出的 selector(选择器)提供。
+
+```js
+// pages/PostsPage.js
+import React, { useEffect } from "react"
+import { useDispatch, useSelector } from "react-redux"
+
+import { fetchPosts, postsSelector } from "../slices/posts"
+
+import { Post } from "../components/Post"
+
+const PostsPage = () => {
+  const dispatch = useDispatch()
+  const { posts, loading, hasErrors } = useSelector(postsSelector)
+
+  useEffect(() => {
+    dispatch(fetchPosts())
+  }, [dispatch])
+
+  const renderPosts = () => {
+    if (loading) return <p>Loading posts...</p>
+    if (hasErrors) return <p>Unable to display posts.</p>
+
+    return posts.map(post => <Post key={post.id} post={post} excerpt />)
+  }
+
+  return (
+    <section>
+      <h1>Posts</h1>
+      {renderPosts()}
+    </section>
+  )
+}
+
+export default PostsPage
+```
+
+现在我们有和以前一样的应用程序，从 Redux Toolkit 进行了一些更新，并且需要维护的代码少了很多。
+
+# 总结
+
+我们成功了！如果你跟我一起读完了整个教程，你现在应该对 Redux 有一个不错的体会，无论是旧式写法还是使用 Redux Toolkit 来简化代码。
+
+总而言之，Redux 允许我们轻松地在 React 应用程序中管理全局状态。我们可以从任何地方访问和更新状态，并使用 Redux Devtools 轻松调试应用程序的整个状态。
+
+你可以将应用程序的大部分状态放在 Redux 中，但应用程序的某些区域（例如正在更新的表单）保持 React 组件状态本身仍然有意义。
+
+希望你喜欢这篇文章！将两个完整的 demo 放在一起并在这里运行整个事情需要做很多工作，这篇文章很长，但希望这是你学习所有初级和中级 Redux 概念的一站式商店。
+
+> (译者补充：原文这里是捐款和订阅链接，感兴趣的读者可用前文地址自行访问。)
+
+请让我知道你的想法，如果对你有所帮助，请分享这篇文章，并且随时欢迎捐款！
