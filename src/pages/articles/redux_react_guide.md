@@ -45,7 +45,7 @@ date: "2023-08-08"
 - [源代码](https://codesandbox.io/s/react-redux-toolkit-application-cbb6s)
 - [Demo 链接](https://cbb6s.csb.app/)
 
-> 注意: 此 app 是通过 “[JSON 占位符 API](https://jsonplaceholder.typicode.com/)” 从真正的 API 中获取数据的的。由于 CodeSandbox 上的速率限制, API 可能会显得很慢, 但这与 Redux app 本身无关。当然, 还可以直接在本地克隆数据。
+> 注意: 此 app 是通过 “[JSON 占位符 API](https://jsonplaceholder.typicode.com/)” 从真正的 API 中获取数据的的。由于 CodeSandbox 上的速率限制，API 可能会显得很慢，但这与 Redux app 本身无关。当然，还可以直接在本地克隆数据。
 
 我们将学到：
 
@@ -53,7 +53,7 @@ date: "2023-08-08"
 
 - Redux 的术语：actions, reducers, store, dispatch, connect, 和 container
 
-- 用[Redux Thunk](https://github.com/reduxjs/redux-thunk)发起异步 API 请求
+- 用 [Redux Thunk](https://github.com/reduxjs/redux-thunk) 发起异步 API 请求
 
 - 学会使用 React 和 Redux 制作轻巧、真实的 app
 
@@ -67,11 +67,11 @@ Redux 的初创人是 [Dan Abramov](https://overreacted.io/) 和 [Andrew Clark](
 
 # 为什么使用 Redux
 
-- 便于管理全局状态————访问或更新任何 Redux 连接组件的状态的任意部分。
+- 便于管理全局状态 —— 访问或更新任何 Redux 连接组件的状态的任意部分。
 
-- 便于追踪状态更改(通过 Redux 开发工具)————任何 action 或状态改变都可以被轻松追踪。实际上，每次更改，app 的全部状态都会被记录，这意味着我们可以轻松的进行 time-travel debugging, 以便于在更改历史之间切换。
+- 便于追踪状态更改(通过 Redux 开发工具) —— 任何 action 或状态改变都可以被轻松追踪。实际上，每次更改，app 的全部状态都会被记录，这意味着我们可以轻松的进行 time-travel debugging, 以便于在更改历史之间切换。
 
-Redux 的缺点在于它有很多初始样板(initial boilerplate)需要设置和维护(特别是单纯使用 Redux 而没有使用 Redux 工具的时候)。因此，对一个简单的 app 而言，或许[不需要使用 Redux](https://medium.com/@dan_abramov/you-might-not-need-redux-be46360cf367), 而只需要简单使用 [Context API](https://www.taniarascia.com/using-context-api-in-react/) 即可管理好全局状态。
+Redux 的缺点在于它有很多初始模板( initial boilerplate )需要设置和维护(特别是单纯使用 Redux 而没有使用 Redux 工具的时候)。因此，对一个简单的 app 而言，或许[不需要使用 Redux](https://medium.com/@dan_abramov/you-might-not-need-redux-be46360cf367), 而只需要简单使用 [Context API](https://www.taniarascia.com/using-context-api-in-react/) 即可管理好全局状态。
 
 根据我的个人经验，之前是只使用 Context 建立 app, 后来将所有内容转换为 Redux 以便于维护和组织。
 
@@ -79,7 +79,7 @@ Redux 的缺点在于它有很多初始样板(initial boilerplate)需要设置�
 
 # 术语
 
-我通常不喜欢单列出术语及其定义列表，但是 Redux 中有些概念就是很陌生的。所以我将在这部分描述定义，便于在后文中使用。虽然读者也可以跳过这部分内容，但我认为最好先阅读所有的定义，以便了解它们并在脑海中形成一个概念。
+我通常不喜欢单列出术语及其定义列表，但是 Redux 中有些概念就是很陌生的。所以我将在这部分简单描述一下其定义，便于在后文中使用。虽然读者也可以跳过这部分内容，但我认为最好先阅读所有的定义，以便了解它们并在脑海中形成一个概念。
 
 - Actions
 - Reducers
@@ -89,7 +89,7 @@ Redux 的缺点在于它有很多初始样板(initial boilerplate)需要设置�
 
 我将使用经典的 todo app (待办事项) 来举例说明。
 
-> (译者补充：这几个术语单词就不翻译了，读写时都是用英文的。)
+> (译者补充：这几个术语单词就不翻译了，读写时都使用英文原文，以免造成误解。)
 
 ## Actions
 
@@ -144,7 +144,7 @@ function todoReducer(state = initialState, action) {
 }
 ```
 
-> (译者补充：通过不同类型的 action 类型及其参数，就能触发某种功能的运行。于是，action 才是第一因变量（触发的源头），而状态量变成了功能运行过程中的一部分。相比于零散的状态更新，逻辑更集中，看起来就像功能入口变得更小了。)
+> (译者补充：通过不同的 action 触发特定功能的运行，于是 state 的更新逻辑可以不对外暴露，在业务逻辑中，只需要调用 action 即可。而 action 一般是多个子 action 的集合，通过 type 指定具体的值，这样便于以后增加新的 action。)
 
 ## Store
 
@@ -200,9 +200,28 @@ Redux 需要一些依赖：
 - [Redux Thunk](https://github.com/reduxjs/redux-thunk) ———— Redux 异步中间件
 - [Redux DevTools Extension](https://github.com/reduxjs/redux-devtools-extension) ———— 连接 Redux app 和 Redux DevTools
 
-你可以使用 yarn add 或者 npm i 安装依赖这些，我自己也会使用 react-router-dom 这个额外的依赖。
+你可以使用 yarn add 或者 npm i 安装这些依赖，我自己也会使用 react-router-dom 这个额外的依赖。
 
-> (译者补充：在不同 OS 中，读者注意下命令的变化)
+> (译者补充：在不同 OS 中，读者注意下命令的变化。)
+
+> (由于本文原文是 2020 年写的，有些写法在新版本中可能不兼容，需要时切换到旧版本即可，或者直接使用译者的 packge.json 配置：)
+>
+> ```js
+> "dependencies": {
+>    "@testing-library/jest-dom": "^5.16.5",
+>    "@testing-library/react": "^13.4.0",
+>    "@testing-library/user-event": "^13.5.0",
+>    "react": "^18.2.0",
+>    "react-dom": "^18.2.0",
+>    "react-redux": "^8.0.5",
+>    "react-router-dom": "^5.0.0", // 这一个要注意，后文中的写法，不兼容 6 及以上版本
+>    "react-scripts": "5.0.1",
+>    "redux": "^4.2.1",
+>    "redux-devtools-extension": "^2.13.9",
+>    "redux-thunk": "^2.4.2",
+>    "web-vitals": "^2.1.4"
+>  },
+> ```
 
 ```bash
 npm i \
@@ -213,7 +232,7 @@ redux-devtools-extension \
 react-router-dom
 ```
 
-下一步，删除所有样板文件。我们将从头开始添加我们需要的所有东西。
+下一步，删除所有模板文件。我们将从头开始添加我们需要的所有东西。
 
 ```bash
 cd src && rm * # 进入 src 文件，然后删除里面的所有文件
@@ -246,11 +265,11 @@ touch index.js index.css App.js
 
 对于 index.css 文件，只需复制[这个网站](https://gist.githubusercontent.com/taniarascia/b0ca2e2c165390f8678e1346514e143d/raw/bed873301fd1c71261a05ec02ca152d908f49463/index.css)的内容。我只打算讨论功能而不是样式，所以我只写了一些非常基本的样式，以确保网站看起来不太糟糕。
 
-现在我们有了足够的样板文件，让我们开始吧。
+现在我们有了足够的模板文件，让我们开始吧。
 
 # 设置 Redux Store
 
-当我第一次学习 Redux 时，感到非常茫然，因为我看到的每个 app 的 index.js 设置都有点不同。在观察了很多最新的 app 并对它们的共性进行分析之后，我能够很好地识别 Redux app 中真正需要包含的内容，以及人们为了与众不同而别出心裁的操作。
+当我第一次学习 Redux 时，感到非常茫然，因为我看到的每个 app 的 index.js 设置都有点不同。在观察了很多最新的 app 并对它们的共性进行分析之后，我能够很好地识别 Redux app 中真正需要包含的内容，或者人们为了与众不同而别出心裁的操作。
 
 网上有很多教程展示了“如何使用 todo 设置一个非常基本的 Redux 存储”，但我认为这些教程对于了解“如何进行生产级设置”没有多大帮助，所以我将从一开始就使用完整项（你需要的所有东西）来设置它。尽管 Redux 非常灵活多变，但还是会有一些固定不变化的方面。
 
@@ -289,7 +308,7 @@ render(
 )
 ```
 
-> (译者补充：在 index.js 中的 Provider 写法，和 React 中提供的 useContext 用法相似)
+> (译者补充：在 index.js 中的 Provider 写法，和 React 中提供的 useContext 写法相似)
 
 在 App.js 中添加一个组件。我们稍后会修改它，但我们现在只想让应用程序启动并运行。
 
@@ -305,13 +324,13 @@ const App = () => {
 export default App
 ```
 
-## 引入折叠器(reducers)
+## 引入 reducers
 
-最后一件事是引入折叠器。reducer 是一个决定 Redux 状态变化的函数。它是一个纯函数，返回更新后的状态的复制。
+最后一件事是引入 reducers —— reducer 是一个决定 Redux 状态变化的函数，它是一个纯函数，返回更新后的状态的复制。
 
 Redux 的一个简洁特性是，我们可以有许多 reducer，并使用 combineReducers 将它们组合成一个给 store 使用的根 reducer。这使我们能够轻松地组织代码，同时仍然将所有内容放在一个根状态树中。
 
-由于这个应用程序会类似一个博客，所以它会有一个文章列表，我们把列表放在 postsReducer 中。有了这个 combineReducers 方法，我们就可以引入任何我们想要的东西 —— commentsReducer 、authReducer，等等。
+由于这个应用程序会类似一个博客，所以它会有一个文章列表，我们把列表放在 postsReducer 中。有了这个 combineReducers 方法，我们就可以引入任何我们想要的东西 —— commentsReducer 、authReducer 等。
 
 在 reducers/index.js 中，创建一个文件来组合所有的 reducers。
 
@@ -329,7 +348,7 @@ const rootReducer = combineReducers({
 export default rootReducer
 ```
 
-最后，我们将创建 postsReducer。我们可以建立一个初始状态。就像你对普通 React 组件的期望一样，我们将有一个 loading 和 hasErrors 状态，以及一个 posts 数组，所有的文章列表都将保存在这里。首先，我们将在 switch 中设置为无动作，而只有一个返回整个状态的默认 case 。
+最后，我们将创建 postsReducer，它有一个初始状态。就像你对普通 React 组件的期望一样，我们将有一个 loading 和 hasErrors 状态，以及一个 posts 数组，文章列表将保存在 posts 里。在 switch 中，还没有设置 action，而只有一个返回整个 state 的 default case。
 
 ```js
 // reducers/postsReducer.js
@@ -352,23 +371,23 @@ export default function postsReducer(state = initialState, action) {
 
 ## Redux 插件
 
-加载完应用程序并设置好 Redux \<Provider\> 后，我们可以看一下 Redux DevTools。下载拓展后，它将成为开发人员工具(F12)中的一个 tab。单击 State，能观察到到目前为止应用程序的整个状态。
+加载完应用程序并设置好 Redux Provider 后，我们可以看一下 Redux DevTools。下载插件后，它将成为开发人员工具(F12)中的一个 tab。单击 State，能观察到到目前为止应用程序的整个状态。
 
 ![dev](/redux_react_guide/reduxDevtools.png)
 
-这里内容比较少看不太明显，但当你获得了很多 reducers and actions 时， Redux DevTools 就会显得很神奇。它可以跟踪应用程序的所有更改，与普通 React 相比，它使调试变得轻而易举。
+这里内容比较少看不太明显，但当你获得了很多 reducers 和 actions 时， Redux DevTools 就会显得很神奇。它可以跟踪应用程序的所有更改，与普通 React 相比，它使调试变得轻而易举。
 
 # 设置 Redux Actions
 
-现在我们有一个文章的 reducer，但我们没有任何 actions。这时 reducer 只会返回状态，但没办法修改状态。actions 是我们与 Redux 存储进行通信的方式。对于这个博客 app，我们将从 API 获取文章数据，然后把它们置于 Redux 状态中。
+现在我们有一个 reducer，但我们没有任何 actions。这时 reducer 只会返回状态，但没办法修改状态。actions 是我们与 Redux 存储进行通信的方式。对于这个博客 app，我们将从 API 获取文章数据，然后把它们置于 Redux 状态中。
 
-由于获取文章是一个异步操作，因此需要使用 Redux thunk。幸运的是，使用 thunk，我们只需要在 store 中设置 thunk （我们已经这样做了），而不必做任何特别的事情来。
+由于获取文章是一个异步操作，因此需要使用 Redux thunk。幸运的是，使用 thunk，我们只需要在 store 中设置 thunk （我们已经这样做了），而不必做任何特殊处理。
 
-创建一个 actions/postsActions.js 文件。首先，我们将 action type 定义为常量 —— 这不是强制要求的，但这是一种常见的约定，便于导出 action 和防止拼写错误。我们想做三件事：
+创建一个 postsActions.js 文件。首先，我们将 action type 定义为常量 —— 这不是强制要求的，但这是一种常见的约定，便于导出 action 和防止拼写错误。我们想做三件事：
 
 - getPosts - 开始告诉 Redux 我们将从 API 获取帖子
 - getPostsSuccess - 在成功的 API 调用时将帖子传递给 Redux
-- getPostsFailure - 通知 Redux 在 Redux 期间遇到错误，API 调用失败
+- getPostsFailure - 通知 Redux 在调用期间遇到错误，API 调用失败
 
 ```js
 // actions/postsActions.js
@@ -378,7 +397,7 @@ export const GET_POSTS_SUCCESS = "GET_POSTS_SUCCESS"
 export const GET_POSTS_FAILURE = "GET_POSTS_FAILURE"
 ```
 
-然后创建 action creators —— 返回 action 的函数。该 action 由 type 和包含数据的可选的 payload 组成。
+然后创建 action creators —— 返回 action 的函数。该 action 由 type 和 payload 组成（payload 是可选字段，它包含了数据）。
 
 ```js
 // actions/postsActions.js
@@ -397,7 +416,7 @@ export const getPostsFailure = () => ({
 })
 ```
 
-最后，创建将上述所有三个 action 组合在一起的异步 thunk action。调用时，它将 dispatch(调度) 初始 getPosts() action 以通知 Redux 准备 API 调用，然后在 try/catch 中执行所有必要的操作以获取数据，并根据需要 dispatch 成功或失败 action。
+最后，创建将上述所有三个 action 组合在一起的异步 thunk action。调用时，它将 dispatch(调度) 初始的 action (即 getPosts())以通知 Redux 准备 API 调用，然后在 try/catch 中执行所有必要的操作以获取数据，最后 dispatch 成功或失败的 action。
 
 ```js
 // actions/postsActions.js
@@ -418,11 +437,11 @@ export function fetchPosts() {
 }
 ```
 
-太好了，我们现在都完成了创建 actions！剩下要做的就是告诉 reducer 如何处理每个操作的状态。
+太好了，我们现在都完成了创建 actions！剩下要做的就是告诉 reducer 如何处理每个 action 的状态。
 
 ## 响应 actions
 
-回到我们的文章 reducer，我们有一个开关，它还没有做任何事情。
+回到我们的 postsReducers，其中有一个 switch，它还没有发挥作用呢。
 
 ```js
 // reducers/postsReducer.js
@@ -449,10 +468,10 @@ case actions.GET_POSTS:
 ```
 
 - GET_POSTS - 开始加载
-- GET_POSTS_SUCCESS - 该应用程序有帖子，没有错误，应该停止加载
+- GET_POSTS_SUCCESS - 应用程序没有错误，应该停止加载
 - GET_POSTS_FAILURE - 应用程序有错误，应该停止加载
 
-这是整个 reducer。
+下面是整个 reducer：
 
 ```js
 // reducers/postsReducer.js
@@ -482,7 +501,9 @@ export default function postsReducer(state = initialState, action) {
 
 # 将 Redux 连接到 React 组件
 
-由于我创建的 demo 使用 React Router 来提供一些路由 —— 仪表板、全文章列表、单文章页面，我现在将引入 React Router。此 demo 中，我将只引入仪表板和此演示的所有帖子列表。
+由于我创建的 demo 使用 React Router 来提供一些路由，比如（仪表板）首页、文章列表页、单文章页面等。我现在将引入 React Router。此 demo 中，我将只引入首页和文章列表页。
+
+> (译者补充：注意 react-router-dom 版本，Switch 在 6 及以上版本无效，所以最好使用 5 版本。当然，你也可以自己修改代码，使用新版的 Routers 写法。)
 
 ```js
 import React from "react"
@@ -511,7 +532,7 @@ const App = () => {
 export default App
 ```
 
-我们可以创建仪表板页面，它只是一个常规的 React 组件。
+我们可以创建首页 —— 常规的 React 组件。
 
 ```js
 // pages/DashboardPage.js
@@ -546,9 +567,9 @@ export const Post = ({ post }) => (
 )
 ```
 
-> 连接到 Redux 的组件对于较小的、可重用的区域（例如此 Post 组件）仍然很重要且有用。
+> 未连接到 Redux 的组件仍然很重要且实用，特别是在较小的、可重用的领域，例如此处的 Post 组件。
 
-现在有趣的部分出现在文章页面 - 将 Redux 引入 React。为此，我们将使用 react-redux 中的 connect。首先，我们将为页面创建一个常规组件。
+现在，有趣的部分出现在文章页面 —— 将 Redux 引入 React。为此，我们将使用 react-redux 中的 connect。首先，我们将为页面创建一个常规组件：
 
 ```js
 // pages/PostsPage.js
@@ -565,7 +586,15 @@ const PostsPage = () => {
 export default PostsPage
 ```
 
-然后我们将引入 connect 函数，它是一个高阶函数，将 Redux store 连接到 React 组件。我们将向 connect 传递一个名为 mapStateToProps 的参数。这个顾名思义的函数将从 Redux store 中获取任何 state，并将其传递给 React 组件的 props。我们将引入 postsReducer 中的 loading 、 posts 和 hasErrors 。
+然后，我们将引入 connect —— 它是一个高阶函数，可以把 Redux store 连接到 React 组件。这个顾名思义的函数将从 Redux store 中获取任何 state，并将其传递给 React 组件的 props。对 connect 的参数 mapStateToProps，就是引入的 postsReducer 中的 loading 、 posts 和 hasErrors 。
+
+> (译者补充:
+>
+> 1、高阶函数：简单理解为，生成函数的函数。
+>
+> 2、注意 connect 的写法。connect(mapStateToProps) 的 return 是一个新的函数，它的参数是 PostsPage。
+>
+> 3、数据从哪里来的？还记得 Provider 的 store 属性吗？下面 mapStateToProps 中的参数 state 就是指数据流上游中的 store 中的 state。)
 
 ```js
 // pages/PostsPage.js
@@ -593,7 +622,7 @@ export default connect(mapStateToProps)(PostsPage)
 
 > 由于此组件使用来自同一 reducer 的状态，因此我们也可以简写为 state => state.posts 。但是，使用更长的写法也是有意义的：如果需要将多个 reducers 引入同一个组件中，可以明确其内容。
 
-最后，我们将从 actions 中引入异步 fetchPosts ，它将获取所有文章的整个生命周期（译者注：就是 fetch 从开始到成功或失败的全过程）合并为一个的 action。使用 Reat 的 useEffecct，在组件挂载时调用 dispatch(fetchPosts) 来更新文章。在已连接的组件上，dispatch 将自动可用。
+最后，我们将从 actions 中引入异步 fetchPosts ，它将“获取所有文章的整个生命周期”（译者注：就是 fetch 从开始到成功或失败的全过程）合并为一个 action。使用 Reat 的 useEffecct，在组件挂载时调用 dispatch(fetchPosts()) 来更新文章。在已连接的组件上，dispatch 将自动可用。
 
 ```js
 // pages/PostsPage.js
@@ -663,15 +692,44 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps)(PostsPage)
 ```
 
-仅此而已 - 我们现在有一个连接的组件，并将数据从 API 引入我们的 Redux store。使用 Redux DevTools，我们可以看到每个操作的发生，以及每个状态更改后的变化。
+以上就是全部的内容啦 - 我们现在有一个已连接的组件，并将数据从 API 引入我们的 Redux store。使用 Redux DevTools，我们可以看到每个 action 的记录，以及每个状态更改后的变化。
 
 ![demo](/redux_react_guide/demo.png)
 
-# 结束
+# 结束语
 
-# Redux Toolkit
+使用纯 Redux 创建 app 的教程到此结束。如果查看 demo 的[源代码](https://codesandbox.io/s/react-redux-application-hewdb)，你会发现添加了很多内容 —— 单个文章以及评论的 reducer 和 actions。
 
-## Advantages to Redux Toolkit
+我建议你逐步完善你的 project，以便它能和 demo app 对得上。后文没有新的概念需要学习，只是更灵活的运用技巧。你将创建两个甚至更多的 reducers 和 actions，并了解如何将两个 state 传入一个单文章页面组件中，该组件包含文章数据以及该文章的评论数据。
+
+# Redux 工具包
+
+我还想介绍一件事 —— Redux 工具包。Redux Toolkit (RTK)是一种更新、更简单的官方使用 Redux 的方式。你可能会注意到 Redux 有很多用于设置的模板文件，并且需要比普通 React 更多的文件夹和文件。现在已经出现了一些模式试图轻量化配置，例如 [Redux ducks 模式](https://github.com/erikras/ducks-modular-redux)。但其实我们可以进一步简化它。
+
+查看 [Redux Toolkit demo app](https://codesandbox.io/s/react-redux-toolkit-application-cbb6s) 的源代码，这与我们刚刚使用 Redux 创建的 app 相同，但使用的是 RTK。它要简单得多，所有相同功能的代码行数都大大减少。
+
+使用 RTK 只需要一个依赖项，@reduxjs/toolkit。
+
+```bash
+npm i @reduxjs/toolkit
+```
+
+并且不再需要您安装 redux-thunk 或 redux-devtools-extension 依赖项。
+
+## Redux 工具包的优势
+
+使用 RTK 的主要优点有：
+
+- 更易于设置（更少的依赖）
+- 减少模板代码（一个 slice vs. 多文件的 actions and reducers）
+- 明智的默认值（ 内置 Redux Thunk 和 Redux DevTools）
+- 更小粒度的 state 更新，这意味着不再需要在每个 reducer 中都 return { ...state } 。
+
+> (译者补充：第四个优点的原文不太好翻译，这里贴一下原文：
+>
+> - The ability to use [direct state mutation](https://redux-toolkit.js.org/api/createreducer#direct-state-mutation), since RTK uses [immer](https://github.com/immerjs/immer) under the hood. This means you no longer need to return { ...state } with every reducer.
+>
+> )
 
 ## Store
 
