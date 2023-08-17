@@ -113,11 +113,11 @@ export default function Home() {
             {/* 'Chart'|'Charts'|'MonitorStatus'|'RoundTick'|'Problem'|'Event'|'Events' */}
             <option value="Chart">Chart</option>
             <option value="Charts">Charts</option>
-            {/* <option value="MonitorStatus">MonitorStatus</option> */}
-            {/* <option value="RoundTick">RoundTick</option> */}
+            <option value="MonitorStatus">MonitorStatus</option>
+            <option value="RoundTick">RoundTick</option>
             <option value="Problem">Problem</option>
-            {/* <option value="Event">Event</option> */}
-            {/* <option value="Events">Events</option> */}
+            <option value="Event">Event</option>
+            <option value="Events">Events</option>
           </select>
           <button onClick={() => {
             try {
