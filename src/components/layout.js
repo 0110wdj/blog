@@ -18,8 +18,7 @@ const ListLink = props => (
         style={{
             textShadow: `none`,
             backgroundImage: `none`,
-            // color: '#000',
-            color: 'rgb(220 255 252)',
+            color: '#7f6f67',
             marginRight: `1rem`,
             display: 'flex',
             alignItems: 'center',

@@ -12,7 +12,7 @@ h2,
 h3,
 h4,
 h5 {
-  color: #dfdfdf;
+  color: #b08454d6;
 }
 blockquote {
   color: hsl(0deg 1% 59.82% / 65%);
@@ -92,7 +92,6 @@ footer a {
 /** 文章内容样式干预 */
 .blog-post h1 {
   text-align: center;
-  color: #c1c1c1;
 }
 
 /*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
