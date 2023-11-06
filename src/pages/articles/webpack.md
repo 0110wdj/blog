@@ -434,7 +434,7 @@ export { bar }
 
 其实这个时候，webpack 不能很容易的判断是否应该忽略 bar.js 这个文件，从而减少打包输出的文件体积。
 
-当然，在 webpack 也中有相关的机制去处理。
+当然，在 webpack 也中有相关的机制去处理，但是更需要手动配置。
 
 ```js
 {
@@ -487,11 +487,38 @@ module.exports = {
 
 得到模块之后，就是 webpack 的主场了。
 
+_4、代码的浏览器兼容问题_
+
+正如之前 less 翻译为 css 一样，es6 代码也可以用 hack 的写法翻译为 es5 代码。
+
+我们常在项目中看到的 babel-loader 就是调用了 babel 工具来做翻译的事情。
+
+```js
+module: {
+  rules: [
+    {
+      test: /\.m?js$/,
+      exclude: /(node_modules|bower_components)/,
+      use: {
+        loader: "babel-loader",
+        options: {
+          presets: ["@babel/preset-env"],
+        },
+      },
+    },
+  ]
+}
+```
+
 ### Plugin (插件)
 
 插件是扩展 webpack 功能的工具，它们并不直接操作文件，而是基于事件机制工作，监听 webpack 打包过程中的某些节点，执行广泛的任务。
 
 这个非常广泛和庞杂，等用到了自行查询即可。
+
+### 代理 proxy
+
+开发环境为了热更新，会启动一个前端服务器。
 
 ## 更多配置
 
