@@ -25,14 +25,17 @@ const getJSONData = async () => {
 /** 添加接口 */
 const addMessageData = async (params = { name: "冰上飞熊", message: "有问题，很有问题。" }) => {
   try {
-    return fetch(`http://${ipAddress}:9527/blog/talkBoard/addInfo`, {
-      method: 'POST',
-      body: JSON.stringify({
-        name: params.name,
-        message: params.message,
-      })
+    return new Promise(async (resolve, reject) => {
+      const data = new URLSearchParams();
+      data.append('name', params.name);
+      data.append('message', params.message);
+      const res = await axios.post(`http://${ipAddress}:9527/blog/talkBoard/addInfo`, data)
+      if (res.status === 200 || res.status === 201) {
+        resolve(res.data)
+      } else {
+        reject(null)
+      }
     })
-      .then(response => response.status === 200 ? response.json() : Promise.reject(new Error('error')))
   } catch (error) {
     Promise.reject(new Error('error'))
   }
@@ -93,10 +96,9 @@ export default function Home() {
     }
     if (params.message !== '' && params.name !== '') {
       addMessageData(params).then((res) => {
-        const { code, body } = res;
-        if (code === 1 && body) {
-          window.location.reload();
-        }
+        window.location.reload();
+      }).catch(() => {
+        alert('添加失败')
       })
     } else {
       window.alert('不能提交空白啊！')
