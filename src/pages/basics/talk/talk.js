@@ -3,8 +3,8 @@ import Layout from "../../../components/layout"
 import * as contactStyles from "./talk.module.css"
 import axios from 'axios';
 
-const ipAddress = 'localhost';
-// const ipAddress = '47.97.71.176';
+// const ipAddress = 'localhost';
+const ipAddress = '47.97.71.176';
 
 /** 接口定义 */
 const getJSONData = async () => {
