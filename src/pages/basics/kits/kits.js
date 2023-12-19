@@ -10,6 +10,10 @@ import React, { useState } from "react"
 import Layout from "../../../components/layout"
 import * as styles from "./kits.module.css"
 import { protbufDecode } from '../../../utils/protobuf/index'
+import axios from 'axios';
+
+// const ipAddress = '47.97.71.176';
+const ipAddress = 'localhost';
 
 export default function Home() {
 
@@ -21,6 +25,9 @@ export default function Home() {
   // 翻译
   const [hexWord, setHexWord] = useState('31 32');
   const [stringWord, setStringWord] = useState('12');
+
+  const [start, setStart] = useState(1);
+  const [end, setEnd] = useState(1);
 
   /** 进制转换 */
   const [bin2, setBin2] = useState('10001');
@@ -165,6 +172,20 @@ export default function Home() {
         <code>
           <textarea rows="5" cols="33" onChange={(e) => { setStringWord(e?.target?.value) }} value={stringWord} />
         </code>
+      </div>
+      <h3 >爬虫下载 </h3>
+      <div className={styles?.trans}>
+        <code>
+          开始页：<input onChange={(e) => { setStart(e?.target?.value) }} value={start} />
+          结束页：<input onChange={(e) => { setEnd(e?.target?.value) }} value={end} />
+        </code>
+        <div style={{ margin: '0 10px' }}>
+          <a href={`http://${ipAddress}:9527/crawler/sichuan/downLoad?start=${start}&end=${end}`}>下载</a>
+          {/* <button onClick={() => {
+            console.log('重置');
+            axios.get(`http://${ipAddress}:9527/crawler/sichuan/clear`);
+          }}>{'重置'}</button> */}
+        </div>
       </div>
     </Layout >
   )
