@@ -1,8 +1,8 @@
 {
   "name": "snofly-blog",
   "private": true,
-  "description": "add post redux job 2023",
-  "version": "0.4.5",
+  "description": "update npm",
+  "version": "0.5",
   "license": "0BSD",
   "scripts": {
     "build": "gatsby build",
@@ -17,24 +17,25 @@
     "@emotion/core": "^11.0.0",
     "axios": "^1.6.2",
     "css-loader": "^6.7.3",
-    "gatsby": "^4.25.5",
-    "gatsby-plugin-emotion": "^7.15.0",
-    "gatsby-plugin-typography": "^4.15.0",
-    "gatsby-source-filesystem": "^4.15.0",
-    "gatsby-transformer-remark": "^5.15.1",
+    "gatsby": "^5.13.0",
+    "gatsby-plugin-emotion": "^8.13.0",
+    "gatsby-plugin-typography": "^5.13.0",
+    "gatsby-source-filesystem": "^5.13.0",
+    "gatsby-transformer-remark": "^6.13.0",
     "highlight.js": "^11.5.1",
-    "markdown-it": "^13.0.1",
+    "markdown-it": "^14.0.0",
     "protobufjs": "^7.2.4",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
-    "react-markdown": "^8.0.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-markdown": "^9.0.1",
     "react-typography": "^0.16.20",
+    "sharp": "^0.33.1",
     "typography": "^0.16.21",
     "typography-theme-fairy-gates": "^0.16.19",
     "typography-theme-kirkham": "^0.16.19"
   },
   "devDependencies": {
-    "prettier": "^2.6.0"
+    "prettier": "^3.1.1"
   },
   "repository": {
     "type": "git",
