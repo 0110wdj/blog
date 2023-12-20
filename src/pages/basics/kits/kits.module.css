@@ -33,6 +33,8 @@ button {
 
 input {
   width: 359px;
+  background-color: transparent;
+  color: #181;
 }
 
 select {

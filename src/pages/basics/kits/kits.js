@@ -12,15 +12,15 @@ import * as styles from "./kits.module.css"
 import { protbufDecode } from '../../../utils/protobuf/index'
 import axios from 'axios';
 
-// const ipAddress = '47.97.71.176';
-const ipAddress = 'localhost';
+const ipAddress = '47.97.71.176';
+// const ipAddress = 'localhost';
 
 export default function Home() {
 
   /* protobuf base64 text */
-  const [protobufBase64, setProtobufBase64] = useState('base64');
+  const [protobufBase64, setProtobufBase64] = useState('');
   const [protobufType, setProtobufType] = useState('Chart');
-  const [protobufBase64ToString, setProtobufBase64ToString] = useState('结果区域');
+  const [protobufBase64ToString, setProtobufBase64ToString] = useState('');
 
   // 翻译
   const [hexWord, setHexWord] = useState('31 32');
@@ -28,6 +28,7 @@ export default function Home() {
 
   const [start, setStart] = useState(1);
   const [end, setEnd] = useState(1);
+  const [isClick, setIsClick] = useState(false);
 
   /** 进制转换 */
   const [bin2, setBin2] = useState('10001');
@@ -113,7 +114,7 @@ export default function Home() {
       <h3 >protobuf 解析 (按F12控制台查看结构)</h3>
       <div className={styles?.trans}>
         <code>
-          <textarea rows="5" cols="33" onChange={(e) => { setProtobufBase64(e?.target?.value) }} value={protobufBase64} />
+          <textarea rows="5" cols="33" onChange={(e) => { setProtobufBase64(e?.target?.value) }} value={protobufBase64} placeholder="base64" />
         </code>
         <div style={{ margin: '0 10px' }}>
           <select name="pets" id="pet-select" onChange={(e) => { setProtobufType(e?.target?.value) }} value={protobufType}>
@@ -138,7 +139,7 @@ export default function Home() {
           }}>{'解析'}</button>
         </div>
         <code>
-          <textarea rows="5" cols="33" value={protobufBase64ToString} />
+          <textarea rows="5" cols="33" value={protobufBase64ToString} placeholder="结果区域" />
         </code>
       </div>
       <h3 >进制转换</h3>
@@ -176,15 +177,28 @@ export default function Home() {
       <h3 >爬虫下载 </h3>
       <div className={styles?.trans}>
         <code>
-          开始页：<input onChange={(e) => { setStart(e?.target?.value) }} value={start} />
-          结束页：<input onChange={(e) => { setEnd(e?.target?.value) }} value={end} />
+          <input onChange={(e) => { setStart(e?.target?.value) }} value={start} prefix="开始页：" />
+          <input onChange={(e) => { setEnd(e?.target?.value) }} value={end} prefix="结束页：" />
         </code>
         <div style={{ margin: '0 10px' }}>
-          <a href={`http://${ipAddress}:9527/crawler/sichuan/downLoad?start=${start}&end=${end}`}>下载</a>
-          {/* <button onClick={() => {
-            console.log('重置');
+          <a
+            href={`http://${ipAddress}:9527/crawler/sichuan/downLoad?start=${start}&end=${end}`}
+            onClick={(e) => {
+              if (isClick) {
+                e.preventDefault()
+              } else {
+                setIsClick(true)
+                setTimeout(() => {
+                  setIsClick(false)
+                }, 5000);
+              }
+            }}
+          >
+            <button>{'下载'}</button>
+          </a>
+          <button onClick={() => {
             axios.get(`http://${ipAddress}:9527/crawler/sichuan/clear`);
-          }}>{'重置'}</button> */}
+          }}>{'重置'}</button>
         </div>
       </div>
     </Layout >
