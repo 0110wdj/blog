@@ -25,6 +25,7 @@ const ListLink = props => (
             justifyContent: 'center',
             ...props.style,
         }}
+        target="_blank"
     >
         {props.children}
     </Link >
