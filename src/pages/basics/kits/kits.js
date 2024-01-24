@@ -174,7 +174,7 @@ export default function Home() {
           <textarea rows="5" cols="33" onChange={(e) => { setStringWord(e?.target?.value) }} value={stringWord} />
         </code>
       </div>
-      <h3 >爬虫下载 </h3>
+      <h3 >爬虫下载(先点重置，再点下载)</h3>
       <div className={styles?.trans}>
         <code>
           <input onChange={(e) => { setStart(e?.target?.value) }} value={start} prefix="开始页：" />
@@ -190,15 +190,23 @@ export default function Home() {
                 setIsClick(true)
                 setTimeout(() => {
                   setIsClick(false)
-                }, 5000);
+                }, 10000);
               }
             }}
           >
-            <button>{'下载'}</button>
+            <button>{isClick ? '等待..' : '下载'}</button>
           </a>
           <button onClick={() => {
-            axios.get(`http://${ipAddress}:9527/crawler/sichuan/clear`);
-          }}>{'重置'}</button>
+            if (isClick) {
+              e.preventDefault()
+            } else {
+              setIsClick(true)
+              axios.get(`http://${ipAddress}:9527/crawler/sichuan/clear`)
+              setTimeout(() => {
+                setIsClick(false)
+              }, 3000);
+            }
+          }}>{isClick ? '等待..' : '重置'}</button>
         </div>
       </div>
     </Layout >
