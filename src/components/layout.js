@@ -58,7 +58,7 @@ const Footer = (data) => {
     return (
         <footer >
             <a href="http://www.snofly.cn">{data.site.siteMetadata.siteTitle}</a>
-            &nbsp;&nbsp; © 2022 - 2023 &nbsp;| &nbsp;&nbsp;
+            &nbsp;&nbsp; © 2022 - 2024 &nbsp;| &nbsp;&nbsp;
             <a href="https://beian.miit.gov.cn" target="_blank" rel="noreferrer">渝ICP备2022005435号-1</a>
         </footer>
     )
