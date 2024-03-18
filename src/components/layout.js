@@ -47,6 +47,7 @@ const Header = (data) => {
             <ListLink to="/" style={{ fontSize: '1.4rem' }}>{data.site.siteMetadata.siteTitle}</ListLink>
             <ListLink to="/basics/talk/talk">互动区</ListLink>
             <ListLink to="/basics/kits/kits">小工具</ListLink>
+            <ListLink to="/basics/games">2048</ListLink>
             <ListLink to="http://www.snofly.cn:8081/">智慧树</ListLink>
             <ListLink to="http://www.snofly.cn:8080/">NPS</ListLink>
         </header>
